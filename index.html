@@ -323,21 +323,25 @@ background-color: #f4f4f9;
 }
 
 .nav-drawer {
+    height: auto;
+    max-height: 100vh; /* Limits drawer height to the full viewport */
+    overflow-y: auto;  /* Enables scrolling inside the drawer */
     width: 250px;
-    height: 100vh;
     position: fixed;
     top: 0;
-    left: -250px;
+    left: -250px; /* Hidden by default */
     background-color: #fff;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-    overflow-y: auto;
     transition: left 0.3s ease;
     z-index: 999;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+
+    /* Hide scrollbars in all major browsers */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
 }
+
 
 body.no-scroll {
     overflow: hidden;
