@@ -2534,55 +2534,6 @@ function copyToClipboard() {
     document.body.removeChild(textarea);
 }
 
-let startY = 0;
-let currentY = 0;
-let isRefreshing = false;
-const refreshContainer = document.querySelector('.refresh-container');
-const refreshLoader = document.querySelector('.refresh-loader');
-const navDrawer = document.querySelector('.nav-drawer');
-const PULL_THRESHOLD = 120;
-
-function isNavDrawerOpen() {
-    return navDrawer.classList.contains('active');
-}
-
-document.addEventListener('touchstart', (e) => {
-    if (window.scrollY === 0 && !isRefreshing && !isNavDrawerOpen()) {
-        startY = e.touches[0].pageY;
-    }
-});
-
-document.addEventListener('touchmove', (e) => {
-    if (window.scrollY === 0 && !isRefreshing && !isNavDrawerOpen()) {
-        currentY = e.touches[0].pageY;
-        if (currentY > startY) {
-            const pullDistance = currentY - startY;
-            refreshContainer.style.top = Math.min(pullDistance, PULL_THRESHOLD) + 'px';
-            if (pullDistance > PULL_THRESHOLD) {
-                refreshLoader.style.opacity = '1';
-            }
-        }
-    }
-});
-
-document.addEventListener('touchend', () => {
-    if (window.scrollY === 0 && !isRefreshing && !isNavDrawerOpen()) {
-        if (currentY - startY > PULL_THRESHOLD) {
-            isRefreshing = true;
-            refreshContainer.style.top = '0';
-            refreshLoader.style.opacity = '1';
-            setTimeout(() => {
-                refreshContainer.style.top = '-60px';
-                refreshLoader.style.opacity = '0';
-                isRefreshing = false;
-                location.reload();
-            }, 1000);
-        } else {
-            refreshContainer.style.top = '-60px';
-            refreshLoader.style.opacity = '0';
-        }
-    }
-});
 </script>
 
 
