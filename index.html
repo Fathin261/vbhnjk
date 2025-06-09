@@ -2339,16 +2339,7 @@ button.copy:hover {
 
 
 
-
-
-
 <script>
-
-
-
-
-
-
 // Scroll to the top of the page when it reloads
 window.onload = function () {
     window.scrollTo(0, 0);
@@ -2360,9 +2351,9 @@ var scrollToTopBtn = document.querySelector('.scroll-to-top');
 // Show the button when the page is scrolled down 200px or more
 window.addEventListener('scroll', function () {
     if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-        scrollToTopBtn.style.display = "flex"; // Show the button
+        scrollToTopBtn.style.display = "flex";
     } else {
-        scrollToTopBtn.style.display = "none"; // Hide the button
+        scrollToTopBtn.style.display = "none";
     }
 });
 
@@ -2371,152 +2362,95 @@ function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Function to toggle the drawer open and close
+// Optimized drawer toggle for mobile and laptop
 function toggleDrawer() {
-    var drawer = document.getElementById('drawer');
-    var menuIcon = document.querySelector('.menu-icon');
-    var reloadIcon = document.querySelector('.reload-icon');
+    const drawer = document.getElementById('drawer');
+    const menuIcon = document.querySelector('.menu-icon');
+    const reloadIcon = document.querySelector('.reload-icon');
 
     drawer.classList.toggle('active');
 
-    // Check if the drawer is open
-    if (drawer.classList.contains('active')) {
-        menuIcon.style.left = '250px'; // Move the menu icon when the drawer is open
-        menuIcon.style.visibility = 'hidden'; // Hide the menu icon when the drawer is open
-        reloadIcon.classList.add('paused'); // Pause the reload animation
+    const isActive = drawer.classList.contains('active');
+    menuIcon.style.left = isActive ? '250px' : '10px';
+    menuIcon.style.visibility = isActive ? 'hidden' : 'visible';
+    reloadIcon.classList.toggle('paused', isActive);
+
+    if (isActive) {
+        document.body.style.overflow = 'hidden';
+        drawer.style.overflowY = 'auto';
+        drawer.style.touchAction = 'pan-y';
     } else {
-        menuIcon.style.left = '10px'; // Reset the position of the menu icon
-        menuIcon.style.visibility = 'visible'; // Show the menu icon when the drawer is closed
-        reloadIcon.classList.remove('paused'); // Resume the reload animation
+        document.body.style.overflow = 'auto';
     }
 }
 
-// Close the drawer if clicking outside of it (including the menu icon)
-document.addEventListener('click', function (event) {
-    var drawer = document.getElementById('drawer');
-    var menuIcon = document.querySelector('.menu-icon');
-    var reloadIcon = document.querySelector('.reload-icon');
+// Close drawer on outside click
+function closeDrawerOnOutsideClick(event) {
+    const drawer = document.getElementById('drawer');
+    const menuIcon = document.querySelector('.menu-icon');
+    const reloadIcon = document.querySelector('.reload-icon');
 
-    // If the click is outside the drawer and menu icon, close the drawer
     if (!drawer.contains(event.target) && !menuIcon.contains(event.target) && drawer.classList.contains('active')) {
         drawer.classList.remove('active');
-        menuIcon.style.left = '10px'; // Reset the position of the menu icon
-        menuIcon.style.visibility = 'visible'; // Show the menu icon when the drawer is closed
-        reloadIcon.classList.remove('paused'); // Resume the reload animation
+        menuIcon.style.left = '10px';
+        menuIcon.style.visibility = 'visible';
+        reloadIcon.classList.remove('paused');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+document.addEventListener('click', closeDrawerOnOutsideClick);
+
+window.addEventListener('resize', () => {
+    const drawer = document.getElementById('drawer');
+    if (drawer.classList.contains('active')) {
+        drawer.style.overflowY = 'auto';
     }
 });
 
-// Function to show the selected section and close the drawer
 function showSection(section) {
-    // Hide all sections
-    var sections = document.querySelectorAll('.butter-section, .cheese-section, .frozen-section, .pitha-section, .chocolate-section, .tubcake-section, .dessert-section, .traditional-mithai-section, .home-section, .spices-section, .baking-section, .ruti-paratha-section, .cake-hub-section');
-    sections.forEach(function (sectionElem) {
-        sectionElem.style.display = 'none';
-    });
+    const sections = document.querySelectorAll('.butter-section, .cheese-section, .frozen-section, .pitha-section, .chocolate-section, .tubcake-section, .dessert-section, .traditional-mithai-section, .home-section, .spices-section, .baking-section, .ruti-paratha-section, .cake-hub-section');
+    sections.forEach(sec => sec.style.display = 'none');
 
-    // Show the selected section
-    var activeSection = document.getElementById(section + '-section');
-    if (activeSection) {
-        activeSection.style.display = 'block';
-    }
+    const activeSection = document.getElementById(section + '-section');
+    if (activeSection) activeSection.style.display = 'block';
 
-    // Close the drawer and reset the menu icon
-    var drawer = document.getElementById('drawer');
+    const drawer = document.getElementById('drawer');
     drawer.classList.remove('active');
-    var menuIcon = document.querySelector('.menu-icon');
-    menuIcon.style.left = '10px'; // Reset position
-    menuIcon.style.visibility = 'visible'; // Show the menu icon again
+    const menuIcon = document.querySelector('.menu-icon');
+    menuIcon.style.left = '10px';
+    menuIcon.style.visibility = 'visible';
+    document.body.style.overflow = 'auto';
 
-    // Scroll to the top of the page
     window.scrollTo(0, 0);
 }
 
-// Function to toggle the search bar's visibility
 function toggleSearchBar() {
-    var searchBar = document.getElementById("searchBar");
-    searchBar.classList.toggle("active"); // Add or remove the "active" class to show/hide the search bar
+    const searchBar = document.getElementById("searchBar");
+    const logo = document.querySelector(".logo");
+    searchBar.classList.toggle("active");
+    searchBar.style.display = searchBar.classList.contains("active") ? 'inline-block' : 'none';
+    logo.style.display = searchBar.classList.contains("active") ? "none" : "flex";
 }
 
-// Function to handle the search input (can be customized later for actual search functionality)
-function searchFunction() {
-    var searchQuery = document.getElementById("searchBar").value;
-    console.log("Searching for: " + searchQuery); // Placeholder action for now, you can handle the search logic
-}
-
-// Show the button with animation when scrolling down
-window.onscroll = function () {
-    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-        scrollToTopBtn.classList.add('show'); // Add class to show the button with animation
-    } else {
-        scrollToTopBtn.classList.remove('show'); // Remove class to hide the button with animation
-    }
-};
-
-function showPopup(method, number) {
-    var phoneNumberElement = document.getElementById("phoneNumber");
-    if (number) {
-        phoneNumberElement.innerText = method + ": " + number; // Add the method name along with the number
-    } else {
-        phoneNumberElement.innerText = "No phone number available"; // If no number is provided
-    }
-
-    // Show the popup
-    document.getElementById("popup").classList.add("show");
-}
-
-function closePopup() {
-    document.getElementById("popup").classList.remove("show");
-}
-
-function copyToClipboard() {
-    var phoneNumberText = document.getElementById("phoneNumber").innerText;
-    var textarea = document.createElement("textarea");
-    textarea.value = phoneNumberText;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand("copy");
-    document.body.removeChild(textarea);
-}
-
-// Toggle the search bar visibility
-function toggleSearchBar() {
-    const searchBar = document.getElementById('searchBar');
-    searchBar.classList.toggle('active');
-    if (searchBar.classList.contains('active')) {
-        searchBar.style.display = 'inline-block'; // Show the search bar
-    } else {
-        searchBar.style.display = 'none'; // Hide the search bar
-    }
-}
-
-// Function to handle search when the arrow icon or "Enter" is pressed
 function triggerSearch() {
     const searchQuery = document.getElementById("searchBar").value.toLowerCase().trim();
-
     if (searchQuery) {
         const allProducts = document.querySelectorAll('h2');
-
         for (let product of allProducts) {
             if (product.textContent.toLowerCase().includes(searchQuery)) {
                 const section = product.closest('[id$="-section"]');
                 if (section) {
-                    // First hide all sections
                     const allSections = document.querySelectorAll('[id$="-section"]');
                     allSections.forEach(s => s.style.display = 'none');
-
-                    // Then show only the target section
                     section.style.display = 'block';
-
-                    // Scroll to the product
                     setTimeout(() => {
                         product.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         product.classList.add('highlight');
                     }, 100);
-
                     setTimeout(() => {
                         product.classList.remove('highlight');
                     }, 2000);
-
                     break;
                 }
             }
@@ -2524,15 +2458,23 @@ function triggerSearch() {
     }
 }
 
-// Add event listener to the search bar for "Enter" key press
 document.getElementById("searchBar").addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        triggerSearch(); // Call triggerSearch when "Enter" is pressed
+        triggerSearch();
     }
 });
 
-// Add this function to show search suggestions
+document.getElementById("searchBar").addEventListener("input", function () {
+    showSearchSuggestions(this.value);
+});
+
+document.addEventListener('click', function (event) {
+    if (!event.target.closest('.search-suggestions') && !event.target.closest('#searchBar')) {
+        removeSuggestions();
+    }
+});
+
 function showSearchSuggestions(searchQuery) {
     const suggestions = document.createElement('div');
     suggestions.className = 'search-suggestions';
@@ -2558,14 +2500,13 @@ function showSearchSuggestions(searchQuery) {
         }
     });
 
-    removeSuggestions(); // Remove existing suggestions
+    removeSuggestions();
 
     if (found && searchQuery.length > 0) {
         document.getElementById('searchBar').parentNode.appendChild(suggestions);
     }
 }
 
-// Add this function to remove suggestions
 function removeSuggestions() {
     const existing = document.querySelector('.search-suggestions');
     if (existing) {
@@ -2573,34 +2514,25 @@ function removeSuggestions() {
     }
 }
 
-// Modify your search bar input event
-document.getElementById("searchBar").addEventListener("input", function () {
-    showSearchSuggestions(this.value);
-});
-
-// Close suggestions when clicking outside
-document.addEventListener('click', function (event) {
-    if (!event.target.closest('.search-suggestions') && !event.target.closest('#searchBar')) {
-        removeSuggestions();
-    }
-});
-
-function toggleSearchBar() {
-    var searchBar = document.getElementById("searchBar");
-    var logo = document.querySelector(".logo");
-
-    searchBar.classList.toggle("active");
-
-    // Toggle logo visibility
-    if (searchBar.classList.contains("active")) {
-        logo.style.display = "none";
-    } else {
-        logo.style.display = "flex";
-    }
+function showPopup(method, number) {
+    const phoneNumberElement = document.getElementById("phoneNumber");
+    phoneNumberElement.innerText = number ? `${method}: ${number}` : "No phone number available";
+    document.getElementById("popup").classList.add("show");
 }
 
+function closePopup() {
+    document.getElementById("popup").classList.remove("show");
+}
 
-
+function copyToClipboard() {
+    const phoneNumberText = document.getElementById("phoneNumber").innerText;
+    const textarea = document.createElement("textarea");
+    textarea.value = phoneNumberText;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+}
 
 let startY = 0;
 let currentY = 0;
@@ -2608,8 +2540,6 @@ let isRefreshing = false;
 const refreshContainer = document.querySelector('.refresh-container');
 const refreshLoader = document.querySelector('.refresh-loader');
 const navDrawer = document.querySelector('.nav-drawer');
-
-// Increased threshold from 60 to 120 pixels
 const PULL_THRESHOLD = 120;
 
 function isNavDrawerOpen() {
@@ -2625,11 +2555,9 @@ document.addEventListener('touchstart', (e) => {
 document.addEventListener('touchmove', (e) => {
     if (window.scrollY === 0 && !isRefreshing && !isNavDrawerOpen()) {
         currentY = e.touches[0].pageY;
-
         if (currentY > startY) {
             const pullDistance = currentY - startY;
             refreshContainer.style.top = Math.min(pullDistance, PULL_THRESHOLD) + 'px';
-
             if (pullDistance > PULL_THRESHOLD) {
                 refreshLoader.style.opacity = '1';
             }
@@ -2643,7 +2571,6 @@ document.addEventListener('touchend', () => {
             isRefreshing = true;
             refreshContainer.style.top = '0';
             refreshLoader.style.opacity = '1';
-
             setTimeout(() => {
                 refreshContainer.style.top = '-60px';
                 refreshLoader.style.opacity = '0';
@@ -2656,12 +2583,9 @@ document.addEventListener('touchend', () => {
         }
     }
 });
-
-
-
-
-
 </script>
+
+
 </body>
 </html>
 
