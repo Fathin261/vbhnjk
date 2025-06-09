@@ -2329,7 +2329,7 @@ function toggleDrawer() {
     var reloadIcon = document.querySelector('.reload-icon');
 
     drawer.classList.toggle('active');
-    document.body.classList.toggle('drawer-open', drawer.classList.contains('active'));
+    document.body.classList.toggle('no-scroll', drawer.classList.contains('active'));
 
     if (drawer.classList.contains('active')) {
         menuIcon.style.left = '250px';
@@ -2349,7 +2349,7 @@ document.addEventListener('click', function (event) {
 
     if (!drawer.contains(event.target) && !menuIcon.contains(event.target) && drawer.classList.contains('active')) {
         drawer.classList.remove('active');
-        document.body.classList.remove('drawer-open');
+        document.body.classList.remove('no-scroll');
         menuIcon.style.left = '10px';
         menuIcon.style.visibility = 'visible';
         reloadIcon.classList.remove('paused');
@@ -2369,7 +2369,7 @@ function showSection(section) {
 
     var drawer = document.getElementById('drawer');
     drawer.classList.remove('active');
-    document.body.classList.remove('drawer-open');
+    document.body.classList.remove('no-scroll');
 
     var menuIcon = document.querySelector('.menu-icon');
     menuIcon.style.left = '10px';
