@@ -284,147 +284,107 @@ background-color: #f4f4f9;
     transition: opacity 0.3s ease, visibility 0s;
 }
 
+
 .close-drawer {
     position: fixed;
-    top: 50%; /* Position in the middle vertically */
-    left: 260px; /* Place it beside the drawer */
-    transform: translateY(-50%); /* Center the button vertically */
-    background-color: white; /* White background */
-    border-radius: 50%; /* Make it a circle */
-    width: 40px; /* Set a fixed width */
-    height: 40px; /* Set a fixed height */
-    display: flex; /* Flexbox to center the content */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    top: 50%;
+    left: 260px;
+    transform: translateY(-50%);
+    background-color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: none;
     font-size: 24px;
     cursor: pointer;
     z-index: 1001;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: adds a shadow for better visibility */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-
 .nav-drawer.active + .close-drawer {
-    left: 260px; /* Matches the drawer's width */
+    left: 260px;
 }
 
 .nav-drawer + .close-drawer {
-    left: -100px; /* Hide when the drawer is closed */
+    left: -100px;
 }
-
 
 .menu-icon {
-
-font-size: 30px;
-
-cursor: pointer;
-
-position: fixed;
-
-top: 25px;
-
-left: 10px;
-
-z-index: 1000;
-
-transition: left 0.3s ease, top 0.3s ease;
-
+    font-size: 30px;
+    cursor: pointer;
+    position: fixed;
+    top: 25px;
+    left: 10px;
+    z-index: 1000;
+    transition: left 0.3s ease, top 0.3s ease;
 }
-/* Make the navigation drawer scrollable */
+
 .nav-drawer {
     width: 250px;
-    height: 100%;
+    height: 100vh;
     position: fixed;
     top: 0;
-    left: -250px; /* Initially hidden */
+    left: -250px;
     background-color: #fff;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-    overflow-y: auto; /* Allows scrolling inside */
+    overflow-y: auto;
     transition: left 0.3s ease;
     z-index: 999;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
-/* Prevent body from scrolling when nav drawer is open */
 body.no-scroll {
     overflow: hidden;
 }
 
-
-/* Hide scrollbar for WebKit browsers (Chrome, Safari) */
 .nav-drawer::-webkit-scrollbar {
     display: none;
 }
 
-/* Hide scrollbar for other browsers */
-.nav-drawer {
-    scrollbar-width: none; /* For Firefox */
-    -ms-overflow-style: none; /* For Internet Explorer and Edge */
-}
-
-
 .nav-drawer.active {
-
-left: 0;
-
+    left: 0;
 }
 
 .nav-drawer ul {
-
-list-style-type: none;
-
-padding: 0;
-
-margin: 0;
-
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
 .nav-drawer li {
-
-padding: 15px;
-
-border-bottom: 1px solid #ddd;
-
-cursor: pointer;
-
-font-size: 18px;
-
-line-height: 1.5;
-
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1.5;
 }
 
 .nav-drawer li:hover {
-
-background-color: #f0f0f0;
-
+    background-color: #f0f0f0;
 }
 
 .nav-drawer .social-icons {
-
-display: flex;
-
-justify-content: space-around;
-
-padding: 15px;
-
-border-top: 1px solid #ddd;
-
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+    border-top: 1px solid #ddd;
 }
 
 .nav-drawer .social-icons a {
-
-text-decoration: none;
-
-font-size: 24px;
-
-color: black;
-
+    text-decoration: none;
+    font-size: 24px;
+    color: black;
 }
 
 .logo-img {
-    height: 50px; /* Adjust height as needed */
-    width: auto; /* Keep aspect ratio */
+    height: 50px;
+    width: auto;
 }
 
 
@@ -2338,17 +2298,15 @@ button.copy:hover {
 
 
 
-
 <script>
+
 // Scroll to the top of the page when it reloads
 window.onload = function () {
     window.scrollTo(0, 0);
 };
 
-// Get the scroll-to-top button
 var scrollToTopBtn = document.querySelector('.scroll-to-top');
 
-// Show the button when the page is scrolled down 200px or more
 window.addEventListener('scroll', function () {
     if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
         scrollToTopBtn.style.display = "flex";
@@ -2357,105 +2315,114 @@ window.addEventListener('scroll', function () {
     }
 });
 
-// Scroll to the top when the button is clicked
 function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Optimized drawer toggle for mobile and laptop
 function toggleDrawer() {
-    const drawer = document.getElementById('drawer');
-    const menuIcon = document.querySelector('.menu-icon');
-    const reloadIcon = document.querySelector('.reload-icon');
+    var drawer = document.getElementById('drawer');
+    var menuIcon = document.querySelector('.menu-icon');
+    var reloadIcon = document.querySelector('.reload-icon');
 
     drawer.classList.toggle('active');
+    document.body.classList.toggle('drawer-open', drawer.classList.contains('active'));
 
-    const isActive = drawer.classList.contains('active');
-    menuIcon.style.left = isActive ? '250px' : '10px';
-    menuIcon.style.visibility = isActive ? 'hidden' : 'visible';
-    reloadIcon.classList.toggle('paused', isActive);
-
-    if (isActive) {
-        document.body.style.overflow = 'hidden';
-        drawer.style.overflowY = 'auto';
-        drawer.style.touchAction = 'pan-y';
+    if (drawer.classList.contains('active')) {
+        menuIcon.style.left = '250px';
+        menuIcon.style.visibility = 'hidden';
+        reloadIcon.classList.add('paused');
     } else {
-        document.body.style.overflow = 'auto';
-    }
-}
-
-// Close drawer on outside click
-function closeDrawerOnOutsideClick(event) {
-    const drawer = document.getElementById('drawer');
-    const menuIcon = document.querySelector('.menu-icon');
-    const reloadIcon = document.querySelector('.reload-icon');
-
-    if (!drawer.contains(event.target) && !menuIcon.contains(event.target) && drawer.classList.contains('active')) {
-        drawer.classList.remove('active');
         menuIcon.style.left = '10px';
         menuIcon.style.visibility = 'visible';
         reloadIcon.classList.remove('paused');
-        document.body.style.overflow = 'auto';
     }
 }
 
-document.addEventListener('click', closeDrawerOnOutsideClick);
+document.addEventListener('click', function (event) {
+    var drawer = document.getElementById('drawer');
+    var menuIcon = document.querySelector('.menu-icon');
+    var reloadIcon = document.querySelector('.reload-icon');
 
-window.addEventListener('resize', () => {
-    const drawer = document.getElementById('drawer');
-    if (drawer.classList.contains('active')) {
-        drawer.style.overflowY = 'auto';
+    if (!drawer.contains(event.target) && !menuIcon.contains(event.target) && drawer.classList.contains('active')) {
+        drawer.classList.remove('active');
+        document.body.classList.remove('drawer-open');
+        menuIcon.style.left = '10px';
+        menuIcon.style.visibility = 'visible';
+        reloadIcon.classList.remove('paused');
     }
 });
 
 function showSection(section) {
-    const sections = document.querySelectorAll('.butter-section, .cheese-section, .frozen-section, .pitha-section, .chocolate-section, .tubcake-section, .dessert-section, .traditional-mithai-section, .home-section, .spices-section, .baking-section, .ruti-paratha-section, .cake-hub-section');
-    sections.forEach(sec => sec.style.display = 'none');
+    var sections = document.querySelectorAll('[id$="-section"]');
+    sections.forEach(function (sectionElem) {
+        sectionElem.style.display = 'none';
+    });
 
-    const activeSection = document.getElementById(section + '-section');
-    if (activeSection) activeSection.style.display = 'block';
+    var activeSection = document.getElementById(section + '-section');
+    if (activeSection) {
+        activeSection.style.display = 'block';
+    }
 
-    const drawer = document.getElementById('drawer');
+    var drawer = document.getElementById('drawer');
     drawer.classList.remove('active');
-    const menuIcon = document.querySelector('.menu-icon');
+    document.body.classList.remove('drawer-open');
+
+    var menuIcon = document.querySelector('.menu-icon');
     menuIcon.style.left = '10px';
     menuIcon.style.visibility = 'visible';
-    document.body.style.overflow = 'auto';
 
     window.scrollTo(0, 0);
 }
 
 function toggleSearchBar() {
-    const searchBar = document.getElementById("searchBar");
-    const logo = document.querySelector(".logo");
+    var searchBar = document.getElementById("searchBar");
+    var logo = document.querySelector(".logo");
+
     searchBar.classList.toggle("active");
-    searchBar.style.display = searchBar.classList.contains("active") ? 'inline-block' : 'none';
-    logo.style.display = searchBar.classList.contains("active") ? "none" : "flex";
+    if (searchBar.classList.contains("active")) {
+        searchBar.style.display = 'inline-block';
+        logo.style.display = "none";
+    } else {
+        searchBar.style.display = 'none';
+        logo.style.display = "flex";
+    }
 }
 
-function triggerSearch() {
-    const searchQuery = document.getElementById("searchBar").value.toLowerCase().trim();
-    if (searchQuery) {
-        const allProducts = document.querySelectorAll('h2');
-        for (let product of allProducts) {
-            if (product.textContent.toLowerCase().includes(searchQuery)) {
-                const section = product.closest('[id$="-section"]');
-                if (section) {
-                    const allSections = document.querySelectorAll('[id$="-section"]');
-                    allSections.forEach(s => s.style.display = 'none');
-                    section.style.display = 'block';
-                    setTimeout(() => {
-                        product.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        product.classList.add('highlight');
-                    }, 100);
-                    setTimeout(() => {
-                        product.classList.remove('highlight');
-                    }, 2000);
-                    break;
-                }
-            }
-        }
+function searchFunction() {
+    var searchQuery = document.getElementById("searchBar").value;
+    console.log("Searching for: " + searchQuery);
+}
+
+window.onscroll = function () {
+    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+        scrollToTopBtn.classList.add('show');
+    } else {
+        scrollToTopBtn.classList.remove('show');
     }
+};
+
+function showPopup(method, number) {
+    var phoneNumberElement = document.getElementById("phoneNumber");
+    if (number) {
+        phoneNumberElement.innerText = method + ": " + number;
+    } else {
+        phoneNumberElement.innerText = "No phone number available";
+    }
+    document.getElementById("popup").classList.add("show");
+}
+
+function closePopup() {
+    document.getElementById("popup").classList.remove("show");
+}
+
+function copyToClipboard() {
+    var phoneNumberText = document.getElementById("phoneNumber").innerText;
+    var textarea = document.createElement("textarea");
+    textarea.value = phoneNumberText;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
 }
 
 document.getElementById("searchBar").addEventListener("keypress", function (event) {
@@ -2474,6 +2441,35 @@ document.addEventListener('click', function (event) {
         removeSuggestions();
     }
 });
+
+function triggerSearch() {
+    const searchQuery = document.getElementById("searchBar").value.toLowerCase().trim();
+
+    if (searchQuery) {
+        const allProducts = document.querySelectorAll('h2');
+
+        for (let product of allProducts) {
+            if (product.textContent.toLowerCase().includes(searchQuery)) {
+                const section = product.closest('[id$="-section"]');
+                if (section) {
+                    const allSections = document.querySelectorAll('[id$="-section"]');
+                    allSections.forEach(s => s.style.display = 'none');
+                    section.style.display = 'block';
+
+                    setTimeout(() => {
+                        product.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        product.classList.add('highlight');
+                    }, 100);
+
+                    setTimeout(() => {
+                        product.classList.remove('highlight');
+                    }, 2000);
+                    break;
+                }
+            }
+        }
+    }
+}
 
 function showSearchSuggestions(searchQuery) {
     const suggestions = document.createElement('div');
@@ -2514,28 +2510,8 @@ function removeSuggestions() {
     }
 }
 
-function showPopup(method, number) {
-    const phoneNumberElement = document.getElementById("phoneNumber");
-    phoneNumberElement.innerText = number ? `${method}: ${number}` : "No phone number available";
-    document.getElementById("popup").classList.add("show");
-}
-
-function closePopup() {
-    document.getElementById("popup").classList.remove("show");
-}
-
-function copyToClipboard() {
-    const phoneNumberText = document.getElementById("phoneNumber").innerText;
-    const textarea = document.createElement("textarea");
-    textarea.value = phoneNumberText;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand("copy");
-    document.body.removeChild(textarea);
-}
 
 </script>
-
 
 </body>
 </html>
